@@ -1,0 +1,10 @@
+# .envファイルを無視
+.env
+
+# Python関連
+__pycache__/
+*.pyc
+
+# ログファイルや一時ファイル
+*.log
+*.tmp
