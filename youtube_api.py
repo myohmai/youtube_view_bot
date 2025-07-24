@@ -2,7 +2,6 @@ import os
 import requests
 from dotenv import load_dotenv
 
-load_dotenv()
 API_KEY = os.getenv("YOUTUBE_API_KEY")
 
 def get_video_data(video_id):
