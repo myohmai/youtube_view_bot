@@ -8,3 +8,7 @@ __pycache__/
 # ログファイルや一時ファイル
 *.log
 *.tmp
+
+venv/
+__pycache__/
+goals.json
