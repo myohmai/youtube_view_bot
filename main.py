@@ -71,3 +71,7 @@ async def morning_to_night_loop():
     save_goals(goals_reached)
 
 bot.run(TOKEN)
+
+print(f"TOKEN: {TOKEN}")
+if not TOKEN:
+    raise RuntimeError("DISCORD_TOKEN が設定されていません")
