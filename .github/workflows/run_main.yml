@@ -2,8 +2,21 @@ name: Run main.py hourly (8:00~22:00 JST)
 
 on:
   schedule:
-    # 毎時 23時〜13時（UTC） → JSTの8時〜22時
-    - cron: '0 23-13 * * *'
+    - cron: '0 23 * * *'
+    - cron: '0 0 * * *'
+    - cron: '0 1 * * *'
+    - cron: '0 2 * * *'
+    - cron: '0 3 * * *'
+    - cron: '0 4 * * *'
+    - cron: '0 5 * * *'
+    - cron: '0 6 * * *'
+    - cron: '0 7 * * *'
+    - cron: '0 8 * * *'
+    - cron: '0 9 * * *'
+    - cron: '0 10 * * *'
+    - cron: '0 11 * * *'
+    - cron: '0 12 * * *'
+    - cron: '0 13 * * *'
 
 jobs:
   run-script:
