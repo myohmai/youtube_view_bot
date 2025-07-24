@@ -1,11 +1,11 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from youtube_api import get_video_data
 from config import VIDEOS
 import os
 from dotenv import load_dotenv
 import json
-from datetime import datetime
+from datetime import datetime, time
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -28,12 +28,13 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 @bot.event
 async def on_ready():
     print(f"Bot is ready: {bot.user.name}")
+    morning_to_night_loop.start()
 
-    # now = datetime.now()
-    # if not (8 <= now.hour < 22):
-    #     print("通知時間外なので終了します。")
-    #     await bot.close()
-    #     return
+@tasks.loop(minutes=10)
+async def morning_to_night_loop():
+    now = datetime.now().time()
+    if not (time(8, 0) <= now <= time(22, 0)):
+        return  # 指定時間外なら何もしない
 
     goals_reached = load_goals()
 
@@ -69,6 +70,5 @@ async def on_ready():
             print(f"チャンネルが見つかりません: {channel_id}")
 
     save_goals(goals_reached)
-    await bot.close()
 
 bot.run(TOKEN)
