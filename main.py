@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 import json
 from datetime import datetime, time
 
-load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 GOALS_FILE = "goals.json"
