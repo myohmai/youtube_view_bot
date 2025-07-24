@@ -51,7 +51,8 @@ VIDEOS = [
 python main.py
 
 ✅ 備考
-	•	Botは午前8時〜午後10時の間のみ投稿する仕様です。
+	•	Botは午前8時〜午後10時の間のみ投稿する仕様です。※現在停止中
+	•   現在は午後9時に一回のみpythonanywhereのスケジューラーを設定してます。
 	•	PythonAnywhere などの外部サーバーに設置して定期実行できます。
 	•	goals.json は再生数の達成管理に使われます（自動生成）。
 
@@ -78,3 +79,13 @@ python main.py
 ## 停止したいとき
 - PythonAnywhere の定期実行タスクを停止
 - または `.env` を一時的にリネーム
+
+	•	GitHubリポジトリはプライベートです
+	•	クローンやプルするときはGitHubの認証（SSHキーやアクセストークン）が必要です
+
+実行時は
+コンソールで
+
+cd ~/youtube_view_bot
+source venv/bin/activate
+python3 main.py

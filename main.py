@@ -29,11 +29,11 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def on_ready():
     print(f"Bot is ready: {bot.user.name}")
 
-    now = datetime.now()
-    if not (8 <= now.hour < 22):
-        print("通知時間外なので終了します。")
-        await bot.close()
-        return
+    # now = datetime.now()
+    # if not (8 <= now.hour < 22):
+    #     print("通知時間外なので終了します。")
+    #     await bot.close()
+    #     return
 
     goals_reached = load_goals()
 
