@@ -1,0 +1,25 @@
+name: Run main.py hourly (8:00~22:00 JST)
+
+on:
+  schedule:
+    # 毎時 23時〜13時（UTC） → JSTの8時〜22時
+    - cron: '0 23-13 * * *'
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run main.py
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python main.py
