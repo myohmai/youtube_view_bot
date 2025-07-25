@@ -1,12 +1,14 @@
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
 from youtube_api import get_video_data
 from config import VIDEOS
 import os
 from dotenv import load_dotenv
 import json
 from datetime import datetime, time
+import asyncio
 
+load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 GOALS_FILE = "goals.json"
@@ -22,17 +24,21 @@ def save_goals(goals):
         json.dump(goals, f, indent=2)
 
 intents = discord.Intents.default()
+intents.guilds = True
+intents.messages = True
+
 bot = commands.Bot(command_prefix="!", intents=intents)
+
+async def run_once():
+    await bot.login(TOKEN)
+    await bot.connect()
 
 @bot.event
 async def on_ready():
-    print(f"Bot is ready: {bot.user.name}")
-    morning_to_night_loop.start()
-
-@tasks.loop(minutes=10)
-async def morning_to_night_loop():
     now = datetime.now().time()
     if not (time(8, 0) <= now <= time(22, 0)):
+        print("現在は送信対象時間外です")
+        await bot.close()
         return
 
     goals_reached = load_goals()
@@ -62,13 +68,14 @@ async def morning_to_night_loop():
             embed.add_field(name="🎉 達成！", value=f"目標 {new_goal:,} 回を超えました！おめでとう！", inline=False)
             goals_reached[video_id] = new_goal
 
-        try:
-            channel = await bot.fetch_channel(channel_id)
-            print(f"✅ チャンネル取得: {channel.name}")
+        channel = bot.get_channel(channel_id)
+        if channel:
             await channel.send(embed=embed)
-        except Exception as e:
-            print(f"❌ チャンネル送信失敗: {channel_id} - {e}")
+        else:
+            print(f"チャンネルが見つかりません: {channel_id}")
 
     save_goals(goals_reached)
+    await bot.close()
 
-bot.run(TOKEN)
+if __name__ == "__main__":
+    asyncio.run(run_once())
