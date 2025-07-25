@@ -5,12 +5,9 @@ from config import VIDEOS
 import os
 from dotenv import load_dotenv
 import json
-from datetime import datetime, time
-import asyncio
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
-
 GOALS_FILE = "goals.json"
 
 def load_goals():
@@ -24,23 +21,15 @@ def save_goals(goals):
         json.dump(goals, f, indent=2)
 
 intents = discord.Intents.default()
-intents.guilds = True
-intents.messages = True
-
 bot = commands.Bot(command_prefix="!", intents=intents)
-
-async def run_once():
-    await bot.login(TOKEN)
-    await bot.connect()
 
 @bot.event
 async def on_ready():
-    now = datetime.now().time()
-    if not (time(8, 0) <= now <= time(22, 0)):
-        print("現在は送信対象時間外です")
-        await bot.close()
-        return
+    print(f"Bot is ready: {bot.user.name}")
+    await send_video_updates()
+    await bot.close()  # ✅ 処理が終わったら終了
 
+async def send_video_updates():
     goals_reached = load_goals()
 
     for video in VIDEOS:
@@ -75,7 +64,5 @@ async def on_ready():
             print(f"チャンネルが見つかりません: {channel_id}")
 
     save_goals(goals_reached)
-    await bot.close()
 
-if __name__ == "__main__":
-    asyncio.run(run_once())
+bot.run(TOKEN)
