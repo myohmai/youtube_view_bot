@@ -33,7 +33,7 @@ async def on_ready():
 async def morning_to_night_loop():
     now = datetime.now().time()
     if not (time(8, 0) <= now <= time(22, 0)):
-        return  # 指定時間外なら何もしない
+        return
 
     goals_reached = load_goals()
 
@@ -62,16 +62,13 @@ async def morning_to_night_loop():
             embed.add_field(name="🎉 達成！", value=f"目標 {new_goal:,} 回を超えました！おめでとう！", inline=False)
             goals_reached[video_id] = new_goal
 
-        channel = bot.get_channel(channel_id)
-        if channel:
+        try:
+            channel = await bot.fetch_channel(channel_id)
+            print(f"✅ チャンネル取得: {channel.name}")
             await channel.send(embed=embed)
-        else:
-            print(f"チャンネルが見つかりません: {channel_id}")
+        except Exception as e:
+            print(f"❌ チャンネル送信失敗: {channel_id} - {e}")
 
     save_goals(goals_reached)
 
 bot.run(TOKEN)
-
-print(f"TOKEN: {TOKEN}")
-if not TOKEN:
-    raise RuntimeError("DISCORD_TOKEN が設定されていません")
