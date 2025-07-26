@@ -35,7 +35,7 @@ youtube_tracker_bot/
 DISCORD_TOKEN=あなたのDiscordBotトークン
 YOUTUBE_API_KEY=あなたのYouTube APIキー
 
-ResplitではSecretsに格納
+GitHubではSecretsに格納
 
 2.	config.py に対象の動画IDとDiscordチャンネルIDを設定：
 
@@ -54,7 +54,7 @@ python main.py
 
 ✅ 備考
 	•	Botは午前8時〜午後10時の間のみ投稿する仕様です。
-	•	Resplit UptimeRobot Flask などの外部サーバーに設置して定期実行できます。
+	•	GitHub Actionsで実行できます。
 	•	goals.json は再生数の達成管理に使われます（自動生成）。
 
 ✅ Discord のチャンネル ID を取得する方法
@@ -80,5 +80,4 @@ python main.py
 ## 停止したいとき
 - または `.env` を一時的にリネーム
 
-	•	GitHubリポジトリはプライベートです
 	•	クローンやプルするときはGitHubの認証（SSHキーやアクセストークン）が必要です
