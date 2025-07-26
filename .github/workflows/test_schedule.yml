@@ -1,0 +1,13 @@
+name: Test 5min Trigger
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # 毎時5分ごとに実行（UTC）
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo timestamp
+        run: echo "Triggered at $(date -u)"
